@@ -1,6 +1,6 @@
 import React from 'react';
 import FileListItem from './FileListItem';
-import type { ExtractedFileContent } from '../UnityExtractor';
+import type { ExtractedFileContent } from 'unitypackage-core';
 import { zip } from 'fflate'; // For zipping categories
 
 interface FileToZip {

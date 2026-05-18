@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import { zip } from 'fflate';
 
-import { UnityExtractClient } from './UnityExtractor';
-import type { ExtractedFileContent } from './UnityExtractor';
+import { parseUnityPackage } from 'unitypackage-core';
+import type { ExtractedFileContent } from 'unitypackage-core';
 
 import FileDropZone from './components/FileDropZone';
 import FileList from './components/FileList';
@@ -12,8 +12,6 @@ import { LanguageSelect } from './components/LanguageSelect';
 import { Header } from './components/Header';
 
 import { translations, type Language, type TranslationKey } from './translations';
-
-const extractor = new UnityExtractClient();
 
 const isValidLanguage = (lang: string): lang is Language => {
   return lang in translations;
@@ -48,7 +46,7 @@ function App() {
     const startTime = performance.now();
     try {
       const buffer = await file.arrayBuffer();
-      const extracted = await extractor.extract(buffer);
+      const extracted = parseUnityPackage(new Uint8Array(buffer));
       const endTime = performance.now();
       console.log(`Extraction completed in ${(endTime - startTime).toFixed(2)}ms`);
       setFiles(extracted);
